@@ -6,7 +6,16 @@ services:
       context: ./items
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "8001:8000"
     volumes:
       - ./items:/app
+    command: sh -c "uvicorn main:app --reload --host 0.0.0.0 --log-level trace"
+  users:
+    build:
+      context: ./users
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8000"
+    volumes:
+      - ./users:/app
     command: sh -c "uvicorn main:app --reload --host 0.0.0.0 --log-level trace"
