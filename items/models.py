@@ -20,7 +20,6 @@ class Item(Base):
     description = Column(String)
 
 class Item_Pydantic(BaseModel):
-    id: Optional[int]
     name: str
     description: str
     class Config:

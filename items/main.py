@@ -7,7 +7,7 @@ from models import Item, Item_Pydantic, get_db
 app = FastAPI()
 
 # Create a GET endpoint to retrieve all items
-@app.get("/items/", response_model=List[Item_Pydantic])
+@app.get("/items/")
 async def read_items(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     items = db.query(Item).offset(skip).limit(limit).all()
     return items
@@ -27,7 +27,6 @@ async def create_item(item: Item_Pydantic, db: Session = Depends(get_db)):
 @app.put("/items/{item_id}/", response_model=Item_Pydantic)
 async def update_item(item_id: int, updated_item: Item_Pydantic, db: Session = Depends(get_db)):
     db_item = db.query(Item).filter(Item.id == item_id).first()
-    print(db_item.__dict__)
     if db_item is None:
         raise HTTPException(status_code=404, detail="Item not found")
 
