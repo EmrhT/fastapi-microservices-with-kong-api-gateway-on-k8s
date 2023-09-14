@@ -19,3 +19,12 @@ services:
     volumes:
       - ./users:/app
     command: sh -c "uvicorn main:app --reload --host 0.0.0.0 --log-level trace"
+  shops:
+    build:
+      context: ./shops
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8000"
+    volumes:
+      - ./shops:/app
+    command: sh -c "uvicorn main:app --reload --host 0.0.0.0 --log-level trace"

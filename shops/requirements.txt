@@ -1,0 +1,4 @@
+fastapi==0.101.1
+sqlalchemy==1.4.49
+uvicorn==0.23.2
+
