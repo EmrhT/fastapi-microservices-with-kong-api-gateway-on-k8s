@@ -27,6 +27,12 @@ class User_Pydantic(BaseModel):
     class Config:
         orm_mode = True
 
+class User_Pydantic_Update(BaseModel):
+    name: Optional[str] = None
+    address: Optional[str] = None
+    user_type: Optional[Literal['supplier', 'consumer', 'admin', 'super_admin']] = None
+    class Config:
+        orm_mode = True
 
 Base.metadata.create_all(bind=engine)
 

@@ -25,6 +25,12 @@ class Item_Pydantic(BaseModel):
     class Config:
         orm_mode = True
 
+class Item_Pydantic_Update(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    class Config:
+        orm_mode = True
+
 Base.metadata.create_all(bind=engine)
 
 # Dependency to get the database session

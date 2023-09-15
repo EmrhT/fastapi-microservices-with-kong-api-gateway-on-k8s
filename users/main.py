@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends, Response
 from typing import List
 from sqlalchemy.orm import Session
-from models import User, User_Pydantic, get_db
+from models import User, User_Pydantic, User_Pydantic_Update, get_db
 
 
 app = FastAPI()
@@ -24,15 +24,14 @@ async def create_user(user: User_Pydantic, db: Session = Depends(get_db)):
 
 
 # Create an UPDATE endpoint to update an existing user by its ID
-@app.put("/users/{user_id}/", response_model=User_Pydantic)
-async def update_user(user_id: int, updated_user: User_Pydantic, db: Session = Depends(get_db)):
+@app.put("/users/{user_id}/")
+async def update_user(user_id: int, updated_user: User_Pydantic_Update, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.id == user_id).first()
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
 
     for key, value in updated_user.dict().items():
-        if key == "id":
-            setattr(db_user, key, user_id)
+        if value is None:
             continue
         setattr(db_user, key, value)
 

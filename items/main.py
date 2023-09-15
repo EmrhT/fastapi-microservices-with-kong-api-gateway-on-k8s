@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends, Response
 from typing import List
 from sqlalchemy.orm import Session
-from models import Item, Item_Pydantic, get_db
+from models import Item, Item_Pydantic, Item_Pydantic_Update, get_db
 
 
 app = FastAPI()
@@ -24,15 +24,14 @@ async def create_item(item: Item_Pydantic, db: Session = Depends(get_db)):
 
 
 # Create an UPDATE endpoint to update an existing item by its ID
-@app.put("/items/{item_id}/", response_model=Item_Pydantic)
-async def update_item(item_id: int, updated_item: Item_Pydantic, db: Session = Depends(get_db)):
+@app.put("/items/{item_id}/")
+async def update_item(item_id: int, updated_item: Item_Pydantic_Update, db: Session = Depends(get_db)):
     db_item = db.query(Item).filter(Item.id == item_id).first()
     if db_item is None:
         raise HTTPException(status_code=404, detail="Item not found")
 
     for key, value in updated_item.dict().items():
-        if key == "id":
-            setattr(db_item, key, item_id)
+        if value is None:
             continue
         setattr(db_item, key, value)
 

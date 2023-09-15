@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends, Response
 from typing import List
 from sqlalchemy.orm import Session
-from models import Shop, Shop_Pydantic, get_db
+from models import Shop, Shop_Pydantic, Shop_Pydantic_Update, get_db
 
 
 app = FastAPI()
@@ -24,15 +24,16 @@ async def create_shop(shop: Shop_Pydantic, db: Session = Depends(get_db)):
 
 
 # Create an UPDATE endpoint to update an existing shop by its ID
-@app.put("/shops/{shop_id}/", response_model=Shop_Pydantic)
-async def update_shop(shop_id: int, updated_shop: Shop_Pydantic, db: Session = Depends(get_db)):
+@app.put("/shops/{shop_id}/")
+async def update_shop(shop_id: int, updated_shop: Shop_Pydantic_Update, db: Session = Depends(get_db)):
     db_shop = db.query(Shop).filter(Shop.id == shop_id).first()
     if db_shop is None:
         raise HTTPException(status_code=404, detail="Shop not found")
 
+    print(updated_shop.__dict__, updated_shop)
+
     for key, value in updated_shop.dict().items():
-        if key == "id":
-            setattr(db_shop, key, shop_id)
+        if value is None:
             continue
         setattr(db_shop, key, value)
 
