@@ -11,6 +11,6 @@
 
 ## Deploying to Kubernetes with Kong
 - I have a series with two stories to deploy on Kubernetes behind a Kong API Gateway.
-- Kong will handle authentication & authorization in that scenario with JWT and ACL plugin.
-- Part I -->
-- Part II --> 
+- Kong will handle authentication & authorization in that scenario with JWT and ACL plugins.
+- Part I --> https://medium.com/@emrah-t/kong-api-gateway-with-microservices-part-i-how-to-install-and-config-kong-on-kubernetes-9e196621d757
+- Part II --> https://medium.com/@emrah-t/kong-api-gateway-with-microservices-part-ii-handling-authentication-and-authorization-with-kong-4f2471b899b0
